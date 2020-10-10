@@ -12,6 +12,15 @@ exports.signup = (req, res, next) => {
     res.status(401).end();
   }
 
+  User.findOne({
+    email: req.body.email
+  }).then(user => {
+    if(user){
+      res.statusMessage = "L'email est déjà utilisé";
+      res.status(401).end();
+    }
+  });
+
   if (!(req.body.password.match(test_password))) {
     res.statusMessage = 'Le mot de passe doit contenir entre 6 et 20 caractères, au minimum une minuscule, une majuscule, un nombre et un caractère spécial !';
     res.status(401).end();
