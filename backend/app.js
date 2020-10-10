@@ -8,11 +8,6 @@ const path = require('path');
 const sauceRoutes = (require('./routes/sauce'));
 const userRoutes = (require('./routes/user'));
 
-let obj = {
-  description: "<h1> fzefz ef</h1>",
-  title: "<p> fzefz ef</p>"
-}
-
 const uri = 'mongodb://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@cluster0-shard-00-00.apqro.mongodb.net:27017,cluster0-shard-00-01.apqro.mongodb.net:27017,cluster0-shard-00-02.apqro.mongodb.net:27017/sopecocko?ssl=true&replicaSet=atlas-4ogc6z-shard-0&authSource=admin&retryWrites=true&w=majority';
 mongoose.connect(uri,
   {
