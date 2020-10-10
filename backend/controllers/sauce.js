@@ -1,6 +1,20 @@
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
 
+// Strip une chaine en enlevant toutes les balises HTML
+function stripHTML(text) {
+    const regex = /(<([^>]+)>)/ig;
+    return text.replace(regex, "");
+}
+
+
+// Strip toutes les propriété d'un objet
+function stripAll(obj) {
+    for (let key in obj) {
+        obj[key] = stripHTML(obj[key] + "");
+    }
+}
+
 // récupère toutes les sauces de la base de données
 exports.getAllSauces = (req, res, next) => {
     Sauce.find()
@@ -15,10 +29,13 @@ exports.getOneSauce = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
-// enregistre une nouvelle sauce dans la base de données
+// crée une nouvelle sauce dans la base de données
 exports.createSauce = (req, res, next) => {
-    const sauceObject = JSON.parse(req.body.sauce);
+    let sauceObject = JSON.parse(req.body.sauce);
     delete sauceObject._id;
+    stripAll(sauceObject);
+    
+
     const sauce = new Sauce({
         ...sauceObject,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
