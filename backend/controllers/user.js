@@ -10,6 +10,7 @@ exports.signup = (req, res, next) => {
   if (!(req.body.email.match(test_email))) {
     res.statusMessage = 'Email invalide';
     res.status(401).end();
+    return;
   }
 
   User.findOne({
@@ -24,6 +25,7 @@ exports.signup = (req, res, next) => {
   if (!(req.body.password.match(test_password))) {
     res.statusMessage = 'Le mot de passe doit contenir entre 6 et 20 caractères, au minimum une minuscule, une majuscule, un nombre et un caractère spécial !';
     res.status(401).end();
+    return;
   }
 
   bcrypt.hash(req.body.password, 10)
